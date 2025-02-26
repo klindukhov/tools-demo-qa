@@ -1,0 +1,20 @@
+{
+  "name": "tools-demo-qa",
+  "version": "1.0.0",
+  "description": "A test suite for web elements of demoqa.com",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0",
+    "selenium-webdriver": "^4.29.0"
+  },
+  "devDependencies": {
+    "mochawesome": "^7.1.3"
+  }
+}
