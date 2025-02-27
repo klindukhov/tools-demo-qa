@@ -1,16 +1,15 @@
 import { Builder, Browser } from "selenium-webdriver";
-import { Options } from "selenium-webdriver/chrome.js";
+import firefox from "selenium-webdriver/firefox.js";
 
 let driver;
 
-const options = new Options();
-options.addArguments("--guest");
+const firefoxOptions = new firefox.Options();
 
 export async function getDriver() {
   if (!driver) {
     driver = await new Builder()
-      .forBrowser(Browser.CHROME)
-      .setChromeOptions(options)
+      .forBrowser(Browser.FIREFOX)
+      .setFirefoxOptions(firefoxOptions)
       .build();
   }
   return driver;
