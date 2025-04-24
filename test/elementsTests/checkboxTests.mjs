@@ -252,7 +252,12 @@ describe("Check box page", async () => {
     });
 
     it("can be expanded", async () => {
-      await (await getExpandButton(desktop())).click();
+      const expandButton = await getExpandButton(desktop());
+      await driver.executeScript(
+        "arguments[0].scrollIntoView(true);",
+        expandButton
+      );
+      await expandButton.click();
       await driver.wait(async () => {
         return await isExpanded(desktop());
       }, 2000);
@@ -494,7 +499,66 @@ describe("Check box page", async () => {
   });
 
   context("Expand arrows", async () => {
-    it("displays arrow right while collapsed");
-    it("displays arrow down while expanded");
+    const getExpandButtonArrow = async (expandButton) => {
+      return await expandButton.findElement(
+        By.xpath('.//*[local-name()="svg"]')
+      );
+    };
+
+    before(async () => {
+      await collapseAll().click();
+    });
+
+    it("displays arrow closed while collapsed", async () => {
+      const homeExpandButton = await getExpandButton(home());
+      const homeExpandButtonArrow = await getExpandButtonArrow(
+        homeExpandButton
+      );
+
+      expect(await homeExpandButtonArrow.getAttribute("class")).to.contain(
+        "rct-icon-expand-close"
+      );
+
+      await homeExpandButton.click();
+
+      for (let element of [desktop, documents, downloads]) {
+        const expandButton = await getExpandButton(element());
+        const expandButtonArrow = await getExpandButtonArrow(expandButton);
+
+        expect(await expandButtonArrow.getAttribute("class")).to.contain(
+          "rct-icon-expand-close"
+        );
+      }
+
+      await (await getExpandButton(documents())).click();
+      for (let element of [workspace, office]) {
+        const expandButton = await getExpandButton(element());
+        const expandButtonArrow = await getExpandButtonArrow(expandButton);
+
+        expect(await expandButtonArrow.getAttribute("class")).to.contain(
+          "rct-icon-expand-close"
+        );
+      }
+    });
+
+    it("displays arrow opened while expanded", async () => {
+      await expandAll().click();
+      for (let element of [
+        home,
+        desktop,
+        documents,
+        workspace,
+        office,
+        downloads,
+      ]) {
+        const expandButtonArrow = await getExpandButtonArrow(
+          await getExpandButton(element())
+        );
+
+        expect(await expandButtonArrow.getAttribute("class")).to.contain(
+          "rct-icon-expand-open"
+        );
+      }
+    });
   });
 });
