@@ -5,6 +5,7 @@ module.exports = {
   spec: [
     "test/elementsTests/textboxTests.mjs",
     "test/elementsTests/checkboxTests.mjs",
+    "test/elementsTests/radioButtonTests.mjs",
   ],
   //   reporter: "mochawesome",
 };
